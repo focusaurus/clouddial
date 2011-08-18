@@ -1,0 +1,9 @@
+= DESCRIPTION:
+Bootstrap a cloud server with a list of packages
+
+= REQUIREMENTS:
+
+= ATTRIBUTES:
+
+= USAGE:
+

@@ -1,0 +1,3 @@
+.chef/*.pem
+.chef/knife.rb.REAL
+cookbooks/*/metadata.json
