@@ -5,7 +5,6 @@ cookbook_file packages_path do
   source "clouddial_packages.json"
   mode "0444"
 end
-log "BUGBUG clouddial version 3 running"
 packages = ["nginx", "monit"]
 if File.exist? packages_path
   log "Reading package list from JSON at #{packages_path}"
