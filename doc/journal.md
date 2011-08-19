@@ -226,3 +226,8 @@ Friday, August 19, 2011 2:28 PM MDT
 * Sadly, the knife ec2 server create command is not very reliable.
   Sometimes the ssh connection doesn't work and it dies before it
 bootstraps chef.
+
+Friday, August 19, 2011 4:16 PM MDT
+* OK, got a clue about chef resources and convergence.  I can't believe
+  jtimberman didn't explain this during chef hack day
+* [http://wiki.opscode.com/display/chef/Anatomy+of+a+Chef+Run]()
