@@ -231,3 +231,7 @@ Friday, August 19, 2011 4:16 PM MDT
 * OK, got a clue about chef resources and convergence.  I can't believe
   jtimberman didn't explain this during chef hack day
 * [http://wiki.opscode.com/display/chef/Anatomy+of+a+Chef+Run]()
+
+Friday, August 19, 2011 5:20 PM MDT
+* [http://blog.afistfulofservers.net/post/3902042503/a-brief-chef-tutorial-from-concentrate]()
+    knife data bag from file clouddial_conf data-bags/clouddial_conf.json 

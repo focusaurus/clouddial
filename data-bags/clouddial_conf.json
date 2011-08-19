@@ -1,10 +1,11 @@
 {
-  "id": "clouddial_conf",
+  "id": "conf",
   "value": {
     "packages": [
       {"name": "curl", "type": "APT"},
-      {"name": "git-core", "type": "APT"}
+      {"name": "git-core", "type": "APT"},
+      {"name": "nginx", "type": "APT"}
     ],
-    "post_command": "curl -s http://reportgrid.com > /tmp/rg.html"
+    "post_command": "curl -s http://www.reportgrid.com > /tmp/rg.html"
   }
 }
