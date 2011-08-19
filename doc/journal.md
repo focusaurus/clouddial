@@ -211,3 +211,18 @@ Thursday, August 18, 2011 2:57 PM MDT
 
 Thursday, August 18, 2011 3:26 PM MDT
 * Going to get git up to date then break for today
+
+Friday, August 19, 2011 12:22 PM MDT
+* Going to work on the post-install script running and output gathering
+* chef should handle concurrency, which is nice
+
+Friday, August 19, 2011 12:47 PM MDT
+* Yes! Finally got the magic incantation to get ssh working
+    knife ssh name:i-bdf337fa uptime  -i ~/.ssh/knife.pem -a cloud.public_hostname --ssh-user ubuntu
+
+Friday, August 19, 2011 2:28 PM MDT
+* Have start of a run.sh script to create the instances and run a post
+  command on them
+* Sadly, the knife ec2 server create command is not very reliable.
+  Sometimes the ssh connection doesn't work and it dies before it
+bootstraps chef.
