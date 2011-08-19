@@ -13,6 +13,7 @@ function checkPrereqs() {
     #etc
 
     #This is just an example
+    #Many more checks would be helpful for the end luser
     EC=0
     which knife > /dev/null 2>&1 || EC=$?
     if [ ${EC} -ne 0 ]; then
@@ -48,6 +49,10 @@ function postScript() {
       --attribute cloud.public_hostname \
       --ssh-user ubuntu
 }
+
+function deleteNode() {
+    knife node delete "${1}" --yes
+}
+
 checkPrereqs || exit $?
-createInstances 2
-postScript
+createInstances ${1-1}

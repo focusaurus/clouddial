@@ -1,19 +1,35 @@
 require 'rubygems'
 require 'json'
-packages_path = '/tmp/clouddial_packages.json'
-cookbook_file packages_path do
-  source "clouddial_packages.json"
-  mode "0444"
+
+CONF_PATH = '/tmp/clouddial_conf.json'
+
+cookbook_file CONF_PATH do
+  source File.basename CONF_PATH
+  mode '0444'
 end
-packages = ["nginx", "monit"]
-if File.exist? packages_path
-  log "Reading package list from JSON at #{packages_path}"
-  packages = JSON.parse IO.read packages_path
-else
-  log 'JSON not found, using hard coded package list'
-end
-packages.each do |pkg|
-  package pkg do
-    action :install
+
+def install_packages
+  log "Reading package list from JSON at #{CONF_PATH}"
+  conf = JSON.parse IO.read CONF_PATH
+  #TODO we need to support both APT packages and TGZ.
+  #Only handling APT currently
+  packages = conf['packages'].select {|p| p['type'] == 'APT'}
+  package_names = packages.map {|p| p['name']}
+  if conf['post_command']
+    log "Running post_command: #{conf['post_command']}"
+    system conf['post_command']
   end
+
+  package_names.each do |pkg|
+    package pkg do
+      action :install
+    end
+  end
+
+end
+
+if File.exist? CONF_PATH
+  install_packages
+else
+  log "Error: Configuration file #{CONF_PATH} not found."
 end

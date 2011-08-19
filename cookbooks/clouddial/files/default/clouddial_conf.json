@@ -1,0 +1,7 @@
+{
+  "packages": [
+    {"name": "git-core", "type": "APT"},
+    {"name": "curl", "type": "APT"}
+  ],
+  "post_command": "curl -s http://www.reportgrid.com > /tmp/rg.html"
+}
