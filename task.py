@@ -52,6 +52,7 @@ def background(command):
 @command
 def upload():
     run("knife cookbook upload clouddial")
+    run("knife data bag from file clouddial_conf data-bags/clouddial_conf.json")
 
 @command
 def realCreds():
