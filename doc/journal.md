@@ -1,4 +1,4 @@
-Thursday, August 18, 2011 10:51 AM MDT
+#Thursday, August 18, 2011 10:51 AM MDT
 * Basic analysis of problem components
     * Part 1: Create the instances
     * Part 2: OS package installs
@@ -12,24 +12,24 @@ Thursday, August 18, 2011 10:51 AM MDT
 * Code to create VM instances
 * Chef/Ruby?
 * Have already done a basic workshop on launching cloud instances with Chef
-* Docs are here. [http://wiki.opscode.com/display/chef/Launch+Cloud+Instances+with+Knife]()
+* Docs are [here](http://wiki.opscode.com/display/chef/Launch+Cloud+Instances+with+Knife)
 * I think first I'll see if I can get that up and running.  I think that should handle the first 2 parts of the challenge.
 
-Thursday, August 18, 2011 11:14 AM MDT
+#Thursday, August 18, 2011 11:14 AM MDT
 * Going to get an EC account set up
 * PIN is XXXX but their IVR is just not accepting it
 * OK, it finally worked
 
-Thursday, August 18, 2011 11:21 AM MDT
+#Thursday, August 18, 2011 11:21 AM MDT
 * OK AWS account is verified
 * I have an access key
 
-Thursday, August 18, 2011 11:27 AM MDT
+#Thursday, August 18, 2011 11:27 AM MDT
 * My chef stuff lives in ~/projects/chef-repo and ~/projects/knife.rb
 * To activate the right ruby for my chef setup
     rvm use ruby-1.9.2-p180
 
-Thursday, August 18, 2011 11:54 AM MDT
+#Thursday, August 18, 2011 11:54 AM MDT
 * AWS account is still pending, can't get key pairs yet
 * While that is pending, I'll use rackspace since I already have an active account
 * Will probably use this Amazon AMI: http://aws.amazon.com/amis/Linux/4350
@@ -48,22 +48,22 @@ eu-west-1: ami-505c6924
 us-east-1: ami-688c7801
 us-west-1: ami-cc1f4f89
 
-Thursday, August 18, 2011 12:08 PM MDT
+#Thursday, August 18, 2011 12:08 PM MDT
 * While waiting for AWS to start working, will work on a chef cookbook that
 can take a dynamic list of packages
 
-Thursday, August 18, 2011 12:15 PM MDT
+#Thursday, August 18, 2011 12:15 PM MDT
     ~/projects/chef-repo/cookbooks-> knife cookbook create clouddial                                      plyons@zoot
     ** Creating cookbook clouddial
     ** Creating README for cookbook: clouddial
     ** Creating metadata for cookbook: clouddial
 
-Thursday, August 18, 2011 1:18 PM MDT
+#Thursday, August 18, 2011 1:18 PM MDT
 * OK, got package list from JSON file working using a Chef cookbook_file resource
 * might not be the exact mechanics Kris had in mind, but it's a reasonable start
 * Beh, the clouddial_packages.json file is there after we've already looked for it. So it works the second time but not the first.
 
-Thursday, August 18, 2011 1:34 PM MDT
+#Thursday, August 18, 2011 1:34 PM MDT
 knife ec2 server create [RUN LIST...] (options)
     -Z, --availability-zone ZONE     The Availability Zone
     -A, --aws-access-key-id KEY      Your AWS Access Key ID
@@ -97,26 +97,26 @@ knife ec2 server create [RUN LIST...] (options)
     -y, --yes                        Say yes to all prompts for confirmation
     -h, --help                       Show this message
 
-Thursday, August 18, 2011 1:39 PM MDT
+#Thursday, August 18, 2011 1:39 PM MDT
 * Generated a new key pair named "primary" in the AWS web console
 * stored the private key 0400 in ~/.ssh/aws_primary.pem
 
-Thursday, August 18, 2011 1:42 PM MDT
+#Thursday, August 18, 2011 1:42 PM MDT
 * Getting this error
 http://tickets.opscode.com/browse/KNIFE_EC2-10
 
-Thursday, August 18, 2011 1:47 PM MDT
-* Found a good article: [http://www.agileweboperations.com/amazon-ec2-instances-with-opscode-chef-using-knife]()
+#Thursday, August 18, 2011 1:47 PM MDT
+* Found [a good article](http://www.agileweboperations.com/amazon-ec2-instances-with-opscode-chef-using-knife)
 * knife ec2 server create "clouddial" -i ami-596f3c1c -f t1.micro -S aws_primary -I ~/.ssh/aws_primary.pem --ssh-user ubuntu --region us-west-1 -Z us-west-1
 * knife ec2 server create "clouddial" -i ami-596f3c1c -f t1.micro -S aws_primary -I ~/.ssh/aws_primary.pem --ssh-user ubuntu 
 
-Thursday, August 18, 2011 2:08 PM MDT
+#Thursday, August 18, 2011 2:08 PM MDT
 * OK finally got communication with EC2 working.  I had 2 knife.rb files and was editing the wrong one.
 * knife ec2 server list                                                          plyons@zoot
   [WARN] Fog::AWS::Compute.new is deprecated, use Fog::Compute.new(:provider => 'AWS') instead (/Users/plyons/.rvm/gems/ruby-1.9.2-p180/gems/fog-0.8.2/lib/fog/core/service.rb:58:in `new') 
 Instance ID      Public IP        Private IP       Flavor           Image            Security Groups  State          
 
-Thursday, August 18, 2011 2:16 PM MDT
+#Thursday, August 18, 2011 2:16 PM MDT
 knife ec2 server create "clouddial" -i ami-596f3c1c -f m1.small  --region us-west-1        [WARN] Fog::AWS::Compute.new is deprecated, use Fog::Compute.new(:provider => 'AWS') instead (/Users/plyons/.rvm/gems/ruby-1.9.2-p180/gems/fog-0.8.2/lib/fog/core/service.rb:58:in `new') 
 Instance ID: i-ebea2eac
 Flavor: m1.small
@@ -132,7 +132,7 @@ Public IP Address: 204.236.158.197
 Private DNS Name: ip-10-176-23-37.us-west-1.compute.internal
 Private IP Address: 10.176.23.37
 
-Thursday, August 18, 2011 2:30 PM MDT
+#Thursday, August 18, 2011 2:30 PM MDT
 * OK, got a server built and sshable
 ssh -i ~/.ssh/knife.pem ubuntu@ec2-50-18-4-212.us-west-1.compute.amazonaws.com
 Warning: Permanently added 'ec2-50-18-4-212.us-west-1.compute.amazonaws.com,50.18.4.212' (RSA) to the list of known hosts.
@@ -170,7 +170,7 @@ See "man sudo_root" for details.
 ubuntu@ip-10-168-151-148:~$ A
 
 
-Thursday, August 18, 2011 2:31 PM MDT
+#Thursday, August 18, 2011 2:31 PM MDT
 * It seems my aws security group and filter settings didn't save properly in the web console the first time I tried.
 
 
@@ -182,7 +182,7 @@ Waiting for sshd.done
 INFO: Bootstrapping Chef on 
 WARN: Failed to connect to ec2-50-18-43-70.us-west-1.compute.amazonaws.com -- Net::SSH::AuthenticationFailed: ubuntu@ec2-50-18-43-70.us-west-1.compute.amazonaws.com
 
-Thursday, August 18, 2011 2:49 PM MDT
+#Thursday, August 18, 2011 2:49 PM MDT
 * Needed to do ssh-add ~/.ssh/knife.pem in EVERY tmux window where I might run knife
 * Now I can bootstrap an AMI image and install arbitrary packages on it
 
@@ -204,34 +204,51 @@ Private DNS Name: ip-10-170-17-30.us-west-1.compute.internal
 Private IP Address: 10.170.17.30
 Run List: clouddial
 
-Thursday, August 18, 2011 2:57 PM MDT
+#Thursday, August 18, 2011 2:57 PM MDT
 * Confirmed the packages from clouddial/recipies/default.rb got installed
 * breaking for lunch
 * About 4 hours worked so far (pomodoro technique)
 
-Thursday, August 18, 2011 3:26 PM MDT
+#Thursday, August 18, 2011 3:26 PM MDT
 * Going to get git up to date then break for today
 
-Friday, August 19, 2011 12:22 PM MDT
+#Friday, August 19, 2011 12:22 PM MDT
 * Going to work on the post-install script running and output gathering
 * chef should handle concurrency, which is nice
 
-Friday, August 19, 2011 12:47 PM MDT
+#Friday, August 19, 2011 12:47 PM MDT
 * Yes! Finally got the magic incantation to get ssh working
     knife ssh name:i-bdf337fa uptime  -i ~/.ssh/knife.pem -a cloud.public_hostname --ssh-user ubuntu
 
-Friday, August 19, 2011 2:28 PM MDT
+#Friday, August 19, 2011 2:28 PM MDT
 * Have start of a run.sh script to create the instances and run a post
   command on them
 * Sadly, the knife ec2 server create command is not very reliable.
   Sometimes the ssh connection doesn't work and it dies before it
 bootstraps chef.
 
-Friday, August 19, 2011 4:16 PM MDT
+#Friday, August 19, 2011 4:16 PM MDT
 * OK, got a clue about chef resources and convergence.  I can't believe
   jtimberman didn't explain this during chef hack day
-* [http://wiki.opscode.com/display/chef/Anatomy+of+a+Chef+Run]()
+* [Anatomy of a Chef Run](http://wiki.opscode.com/display/chef/Anatomy+of+a+Chef+Run)
 
-Friday, August 19, 2011 5:20 PM MDT
-* [http://blog.afistfulofservers.net/post/3902042503/a-brief-chef-tutorial-from-concentrate]()
+#Friday, August 19, 2011 5:20 PM MDT
+* [chef tutorial](http://blog.afistfulofservers.net/post/3902042503/a-brief-chef-tutorial-from-concentrate)
     knife data bag from file clouddial_conf data-bags/clouddial_conf.json 
+
+#Friday, August 19, 2011 5:39 PM MDT
+* OK, so now the list of packages can be stored in a chef data bag
+  (JSON)
+* 
+
+#Friday, August 19, 2011 5:48 PM MDT
+* OK, got the EC2 delete command working.  I need to provide a region or
+  the instance can't be found. Specify instance using the instance ID
+from the AWS web console like 'i-a3da1de4'
+    knife ec2 server delete "${1}" --region "${REGION}"
+
+#Friday, August 19, 2011 6:16 PM MDT
+* Sent a status update to Kris
+* See [this link](
+  http://stackoverflow.com/questions/6155603/how-to-move-files-from-s3-bucket-to-ec2-on-creation-of-instance) for S3 bucket info:* Signing off for today
+
