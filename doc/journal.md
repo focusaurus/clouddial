@@ -250,5 +250,27 @@ from the AWS web console like 'i-a3da1de4'
 #Friday, August 19, 2011 6:16 PM MDT
 * Sent a status update to Kris
 * See [this link](
-  http://stackoverflow.com/questions/6155603/how-to-move-files-from-s3-bucket-to-ec2-on-creation-of-instance) for S3 bucket info:* Signing off for today
+  http://stackoverflow.com/questions/6155603/how-to-move-files-from-s3-bucket-to-ec2-on-creation-of-instance) for S3 bucket info
+* Signing off for today
 
+#Sunday, August 21, 2011 11:08 AM MDT
+* Researching amazon S3 buckets
+
+#Sunday, August 21, 2011 11:41 AM MDT
+* OK, S3 buckets are pretty straightforward
+* Dealing with authentication would be some extra code, but specs don't
+  require it, so for now start with a publically available S3 bucket
+object
+
+#Sunday, August 21, 2011 11:56 AM MDT
+* HEADS UP: if you try to create a node in chef and there is a collision
+  (duplication) of the node name, it won't overwrite the existing
+record.
+* Bootstrapping chef will fail because knife will try to ssh to the
+  existing (old) node (I think)
+* Need a better strategy to guarantee unique chef node names and grab
+  IDs and AWS instance IDs out of the knife ec2 output.
+
+#Sunday, August 21, 2011 12:10 PM MDT
+* OK, code to grab a .tar.gz file from S3 and extract it into / is
+  working
