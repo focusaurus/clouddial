@@ -13,11 +13,11 @@ Here is the original challange specification with my comments.
 <div class="quote">
 
 > Here is your challenge problem:
->
 > Your challenge consists of building a script for very simple EC2 server
 > management. You are welcome to use the command-line tools, 
 > third-party EC2 libraries, or the EC2 service APIs directly to complete this
 > task.
+
 </div>
 
 * I used 3rd party stuff:
@@ -28,8 +28,7 @@ Here is the original challange specification with my comments.
 <div class="quote">
 
 > Here's what you script needs to do:
->
-> * Given a number n, provision that number of EC2 micro Linux instances. It
+> Given a number n, provision that number of EC2 micro Linux instances. It
 > should be possible to provide a simple configuration file (preferably in
 > something like JSON, YAML, or an internal Ruby/Python/whatever DSL) that 
 > specifies any additional packages that need to be installed as part of the
@@ -40,6 +39,7 @@ Here is the original challange specification with my comments.
 > (/bin, /lib, /src, etc...). If a binary package of this sort is specified,
 > the script should be able to download and install the package from an Amazon
 > S3 bucket.
+
 </div>
 
 * run.sh takes the number of instances as the first argument
@@ -54,12 +54,13 @@ Here is the original challange specification with my comments.
 
 <div class="quote">
 
-> * Once each server is fully configured, run a process (which should also be
->  specified in the configuration file) on each system and collect the output.
+> Once each server is fully configured, run a process (which should also be
+> specified in the configuration file) on each system and collect the output.
 > The script should be able to handle a relatively long-running process that will
 > need to be polled for termination, although for the purpose of this exercise it
 > can be something as simple as using curl to retrieve some information from a
->remote service - search Google for ReportGrid or something.
+> remote service - search Google for ReportGrid or something.
+
 </div>
 
 * I used curl to download the ReportGrid home page.  Chef handles the polling
@@ -71,9 +72,10 @@ directory for that instance.
 
 <div class="quote">
 
->* Once the process is complete on all servers (though you can do this
->  incrementally) collect the output from all the processes and return it to the
->client. Once all the output is retrieved, terminate the instances.
+> Once the process is complete on all servers (though you can do this
+> incrementally) collect the output from all the processes and return it to the
+> client. Once all the output is retrieved, terminate the instances.
+
 </div>
 
 * Both the Chef nodes and the EC2 instances are deleted at the end. For
@@ -86,6 +88,7 @@ of the `deleteInstance` function in `run.sh`
 > faster the better! You are welcome to use your language(s) of choice, and don't
 > feel restricted to use just a single language; if parts need to be in shell,
 > parts in Ruby, parts in Python, etc so be it.
+
 </div>
 
 * I worked on this over about 4 total sessions between Thursday and Sunday for a
