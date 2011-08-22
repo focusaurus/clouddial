@@ -2,8 +2,6 @@
 #
 require 'FileUtils'
 
-Commands = {}
-
 def command_sample_creds
   FileUtils.cp ".chef/knife.rb.SAMPLE", ".chef/knife.rb"
 end
@@ -20,18 +18,35 @@ knife data bag from file clouddial_conf \
 EOF
 end
 
-command_symbols = self.private_methods.select do |m|
-  m.to_s.start_with? 'command_'
+def command_clean
+    FileUtils.rm_rf './results'
 end
-#Store a map of the string command name (no prefix) to the method object
-prefix = 'command_'
-command_symbols.each do |sym|
-  Commands[sym.to_s[prefix.size..-1]] = self.method(sym)
+
+def command_list
+    system <<-EOF
+knife ec2 server list --region us-west-1 | grep -v "is deprecated"
+knife node list
+EOF
+end
+
+def command_delete(names)
+    names.each do |name|
+        command = "knife node delete '#{name}' --yes"
+        if name.start_with? 'i-'
+            command = "knife ec2 server delete '#{name}' --region us-west-1 --yes"
+        end
+        system command
+    end
 end
 
 command = ARGV[0]
-if Commands.include? command
-    Commands[command].call
+command_symbol = ('command_' + command).to_sym
+if self.private_methods.include? command_symbol
+    if ARGV.size > 1
+        self.send command_symbol, ARGV[1..-1]
+    else
+        self.send command_symbol
+    end
 else
     puts "Unknown command #{command}"
     puts "Valid commands: #{Commands.keys.sort}"
