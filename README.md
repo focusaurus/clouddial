@@ -198,3 +198,4 @@ be confusing.
 to others having this problem
     * Applying that monkey patch to knife.rb DOES seem to have fixed the
       issue
+
