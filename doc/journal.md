@@ -281,10 +281,15 @@ record.
 * Searched for a knife command to download a remote file from a managed
   node but came up empty. Using native scp for now.
 
-    #This function isn't used any more. The Chef recipe handles this
-    #function postScript() {
-    #    knife ssh 'name:rgtest-*' 'sleep 10 && uptime | tee /tmp/uptime.out'  \
-    #      --identity-file  ~/.ssh/knife.pem \
-    #      --attribute cloud.public_hostname \
-    #      --ssh-user ubuntu
-    #}
+    This function isn't used any more. The Chef recipe handles this
+    function postScript() {
+        knife ssh 'name:rgtest-*' 'sleep 10 && uptime | tee /tmp/uptime.out'  \
+          --identity-file  ~/.ssh/knife.pem \
+          --attribute cloud.public_hostname \
+          --ssh-user ubuntu
+    }
+
+#Sunday, August 21, 2011 7:03 PM MDT
+* Here's how to manually bootstrap chef on an EC2 instance
+
+    knife bootstrap --ssh-user ubuntu --identity-file ~/.ssh/knife.pem --sudo --node-name par-D-1 ec2-50-18-143-62.us-west-1.compute.amazonaws.com

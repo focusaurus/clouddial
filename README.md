@@ -22,3 +22,11 @@
 * Set up an account with the Opscode platform and follow their
   quickstart guide. [http://www.opscode.com/chef/]()
 * Amazon Web Services (AWS) Elastic Compute Cloud (EC2)
+
+
+#Open Issues
+* `knife ec2 server list` always shows an empty list.  Need to
+  investigate.
+* knife bootstrap process is not highly reliable.  Sometimes fails.
+    * It hangs at "INFO: Bootstrapping Chef on" and my local workstation
+      CPU starts to thrash
