@@ -49,8 +49,9 @@ function gatherResult() {
     echo "Gathering results from ${NAME}"
     #It would be nice if we could retrieve remote files with knife
     #But I couldn't easily find a way
-    local HOSTNAME=$(knife node show "${NAME}" --attribute cloud.public_hostname \
-      | grep cloud\.public_hostname | cut -d : -f 2- | tr -d ' "')
+    local HOSTNAME=$(knife node show "${NAME}" \
+      --attribute cloud.public_hostname \
+      --format text)
     #TODO decouple this from caring about the specific file name
     scp -i "${ID_FILE}" "${SSH_USER}@${HOSTNAME}:/tmp/rg.html" "results/${HOSTNAME}-rg.html"
 }
@@ -63,10 +64,11 @@ function createInstances() {
     while [ ${INDEX} -le ${TOTAL} ]
     do
         local NAME="${PREFIX}-${INDEX}"
-        createInstance "${NAME}"
-        gatherResult "${NAME}"
+        (createInstance "${NAME}" && gatherResult "${NAME}") &
         INDEX=$((${INDEX} + 1))
     done
+    #Wait for parallel subshells to complete
+    wait
 }
 
 function deleteNode() {
@@ -74,7 +76,15 @@ function deleteNode() {
 }
 
 function deleteEC2() {
-    knife ec2 server delete "${1}" --region "${REGION}"
+    knife ec2 server delete "${1}" --region "${REGION}" --yes
+}
+
+function deleteInstance() {
+    local NAME="${1}"
+    ID=$(knife node show "${NAME}" --attribute ec2.instance_id \
+      --format text)
+    deleteEC2 "${ID}"
+    deleteNode "${NAME}"
 }
 checkPrereqs || exit $?
 createInstances ${1-1}
