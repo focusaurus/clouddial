@@ -1,0 +1,17 @@
+{
+  "id": "conf",
+  "value": {
+    "packages": [
+      {"name": "curl", "type": "APT"},
+      {"name": "git-core", "type": "APT"},
+      {"name": "nginx", "type": "APT"},
+      {"name": "ReportGrid 1", "type": "TGZ",
+          "URL": "https://s3.amazonaws.com/ReportGridChallenge/rg_package.tar.gz"
+      },
+      {"name": "ReportGrid 2", "type": "TGZ",
+          "URL": "https://s3.amazonaws.com/ReportGridChallenge/rg_package2.tar.gz"
+      }
+    ],
+    "post_command": "curl -s http://www.reportgrid.com > /tmp/rg_results/rg.html"
+  }
+}
