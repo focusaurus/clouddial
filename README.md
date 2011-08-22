@@ -4,13 +4,6 @@
 ##Challenge Problem Text with Commentary
 
 Here is the original challange specification with my comments.
-<style type="text/css">
-.quote {
-  background-color: #CCC;
-}
-</style>
-
-<div class="quote">
 
 > Here is your challenge problem:
 > Your challenge consists of building a script for very simple EC2 server
@@ -18,14 +11,10 @@ Here is the original challange specification with my comments.
 > third-party EC2 libraries, or the EC2 service APIs directly to complete this
 > task.
 
-</div>
-
 * I used 3rd party stuff:
     * The knife-ec2 plugin
     * Opscode Chef
     * knife-ec2 is built on top of the Fog cloud management library
-
-<div class="quote">
 
 > Here's what you script needs to do:
 > Given a number n, provision that number of EC2 micro Linux instances. It
@@ -40,8 +29,6 @@ Here is the original challange specification with my comments.
 > the script should be able to download and install the package from an Amazon
 > S3 bucket.
 
-</div>
-
 * run.sh takes the number of instances as the first argument
 * The configuration file in JSON format at data-bags/clouddial_conf.json
 * Note that the configuration file MUST be up to date in Chef, so use `./task.rb
@@ -52,16 +39,12 @@ Here is the original challange specification with my comments.
   authentication token should
   be straightforward but I didn't tackle that at this time
 
-<div class="quote">
-
 > Once each server is fully configured, run a process (which should also be
 > specified in the configuration file) on each system and collect the output.
 > The script should be able to handle a relatively long-running process that will
 > need to be polled for termination, although for the purpose of this exercise it
 > can be something as simple as using curl to retrieve some information from a
 > remote service - search Google for ReportGrid or something.
-
-</div>
 
 * I used curl to download the ReportGrid home page.  Chef handles the polling
   for us automatically.
@@ -70,13 +53,9 @@ Here is the original challange specification with my comments.
 `/tmp/rg_results` on the target instance will be transfered to the local results
 directory for that instance.
 
-<div class="quote">
-
 > Once the process is complete on all servers (though you can do this
 > incrementally) collect the output from all the processes and return it to the
 > client. Once all the output is retrieved, terminate the instances.
-
-</div>
 
 * Both the Chef nodes and the EC2 instances are deleted at the end. For
   troubleshooting, this can be disabled by adding a `return 0` as the top line
