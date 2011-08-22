@@ -9,6 +9,6 @@
           "URL": "https://s3.amazonaws.com/ReportGridChallenge/rg_package.tar.gz"
       }
     ],
-    "post_command": "curl -s http://www.reportgrid.com > /tmp/rg.html"
+    "post_command": "curl -s http://www.reportgrid.com > /tmp/rg_results/rg.html"
   }
 }

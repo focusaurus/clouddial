@@ -33,6 +33,7 @@ function checkPrereqs() {
 function createInstance() {
     local NAME="${1}"
     echo creating "${NAME}"
+    EC=0
     #"clouddial" is the chef run list (a recipe name)
     knife ec2 server create "clouddial" \
       --node-name "${NAME}" \
@@ -41,7 +42,11 @@ function createInstance() {
       --ssh-key knife \
       --identity-file ~/.ssh/knife.pem \
       --ssh-user "${SSH_USER}" \
-      --region "${REGION}"
+      --region "${REGION}" || EC=$?
+    if [ $EC -ne 0 ]; then
+      err "ec2 server create failed"
+    fi
+    return $EC
 }
 
 function gatherResult() {
@@ -52,8 +57,9 @@ function gatherResult() {
     local HOSTNAME=$(knife node show "${NAME}" \
       --attribute cloud.public_hostname \
       --format text)
-    #TODO decouple this from caring about the specific file name
-    scp -i "${ID_FILE}" "${SSH_USER}@${HOSTNAME}:/tmp/rg.html" "results/${HOSTNAME}-rg.html"
+    mkdir "results/${HOSTNAME}"
+    scp -r -i "${ID_FILE}" "${SSH_USER}@${HOSTNAME}:/tmp/rg_results/*" \
+      "results/${HOSTNAME}"
 }
 
 function createInstances() {
@@ -64,7 +70,9 @@ function createInstances() {
     while [ ${INDEX} -le ${TOTAL} ]
     do
         local NAME="${PREFIX}-${INDEX}"
-        (createInstance "${NAME}" && gatherResult "${NAME}") &
+        #We sleep 5 to allow Chef to register the new node.
+        #Otherwise we get intermittent 404s
+        (createInstance "${NAME}" && sleep 5 && gatherResult "${NAME}") &
         INDEX=$((${INDEX} + 1))
     done
     #Wait for parallel subshells to complete
