@@ -293,3 +293,6 @@ record.
 * Here's how to manually bootstrap chef on an EC2 instance
 
     knife bootstrap --ssh-user ubuntu --identity-file ~/.ssh/knife.pem --sudo --node-name par-D-1 ec2-50-18-143-62.us-west-1.compute.amazonaws.com
+
+#Sunday, August 21, 2011 7:12 PM MDT
+* Quickly porting task.py to ruby for simplicity
