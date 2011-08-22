@@ -17,3 +17,16 @@ knife[:rackspace_api_username] = "yourusername"
 # All caps hex string from AWS management console
 knife[:aws_access_key_id]     = "YOUR_ACCESS_KEY"
 knife[:aws_secret_access_key] = "YOUR_SECRET_ACCESS_KEY"
+
+#Sigh. Monkey patch.
+#http://help.opscode.com/discussions/problems/233-ec2-instances-sometimes-do-not-bootstrap-with-knife-due-to-authentication-failure
+class Chef::Knife::Ec2ServerCreate < Chef::Knife
+  alias :original_run :run
+
+  def run
+    @initial_sleep_delay = 20
+    puts "sleeping #{@initial_sleep_delay} this time"
+
+    original_run
+  end
+end

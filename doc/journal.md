@@ -296,3 +296,16 @@ record.
 
 #Sunday, August 21, 2011 7:12 PM MDT
 * Quickly porting task.py to ruby for simplicity
+
+#Sunday, August 21, 2011 8:45 PM MDT
+* got post_command better decoupled
+* Now working on deleting the instances when done
+
+#Sunday, August 21, 2011 9:36 PM MDT
+* Here's other folks seeig the same problem I am seeing
+* [EC2 auth failure](http://help.opscode.com/discussions/problems/233-ec2-instances-sometimes-do-not-bootstrap-with-knife-due-to-authentication-failure)
+
+#Sunday, August 21, 2011 10:04 PM MDT
+* w00t. Most issues are solved. This thing is running in parallel fine.
+* Solution to "knife ec2 server list" empty results was region is
+  necessary

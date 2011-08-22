@@ -44,7 +44,7 @@ function createInstance() {
       --ssh-user "${SSH_USER}" \
       --region "${REGION}" || EC=$?
     if [ $EC -ne 0 ]; then
-      err "ec2 server create failed"
+      err "ec2 server create failed for ${NAME}"
     fi
     return $EC
 }
@@ -70,9 +70,15 @@ function createInstances() {
     while [ ${INDEX} -le ${TOTAL} ]
     do
         local NAME="${PREFIX}-${INDEX}"
-        #We sleep 5 to allow Chef to register the new node.
-        #Otherwise we get intermittent 404s
-        (createInstance "${NAME}" && sleep 5 && gatherResult "${NAME}") &
+        #We sleep a while to allow Chef to register the new node.
+        #Otherwise we get intermittent 404s from the Chef API
+        #The ()& below runs these in parallel subshells
+        (createInstance "${NAME}" && \
+             sleep 15 && \
+             gatherResult "${NAME}" && \
+             deleteInstance "${NAME}") \
+             & #COMMENT OUT THIS LINE TO EXECUTE SERIALLY
+
         INDEX=$((${INDEX} + 1))
     done
     #Wait for parallel subshells to complete
@@ -80,10 +86,12 @@ function createInstances() {
 }
 
 function deleteNode() {
+    echo "Deleting node ${1} from Chef"
     knife node delete "${1}" --yes
 }
 
 function deleteEC2() {
+    echo "Deleting EC2 instance ${1}"
     knife ec2 server delete "${1}" --region "${REGION}" --yes
 }
 
