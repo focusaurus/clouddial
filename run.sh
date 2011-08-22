@@ -1,7 +1,12 @@
 #!/bin/sh
 
-PREFIX=rgtest
+ID_FILE=~/.ssh/knife.pem
+SSH_USER=ubuntu
+PREFIX="${2-rgtest}"
 REGION="us-west-1"
+AMI="ami-596f3c1c"
+
+DIR=$(dirname "${0}")
 
 function err() {
     echo "${@}" 1>&2
@@ -16,7 +21,7 @@ function checkPrereqs() {
 
     #This is just an example
     #Many more checks would be helpful for the end luser
-    EC=0
+    local EC=0
     which knife > /dev/null 2>&1 || EC=$?
     if [ ${EC} -ne 0 ]; then
         err "knife command not found."
@@ -25,33 +30,44 @@ function checkPrereqs() {
     fi
 }
 
-function createInstances() {
-    TOTAL=$1
-    INDEX=1
+function createInstance() {
+    local NAME="${1}"
+    echo creating "${NAME}"
+    #"clouddial" is the chef run list (a recipe name)
+    knife ec2 server create "clouddial" \
+      --node-name "${NAME}" \
+      --image "${AMI}" \
+      --flavor m1.small \
+      --ssh-key knife \
+      --identity-file ~/.ssh/knife.pem \
+      --ssh-user "${SSH_USER}" \
+      --region "${REGION}"
+}
 
-    AMI="ami-596f3c1c"
+function gatherResult() {
+    local NAME="${1}"
+    echo "Gathering results from ${NAME}"
+    #It would be nice if we could retrieve remote files with knife
+    #But I couldn't easily find a way
+    local HOSTNAME=$(knife node show "${NAME}" --attribute cloud.public_hostname \
+      | grep cloud\.public_hostname | cut -d : -f 2- | tr -d ' "')
+    #TODO decouple this from caring about the specific file name
+    scp -i "${ID_FILE}" "${SSH_USER}@${HOSTNAME}:/tmp/rg.html" "results/${HOSTNAME}-rg.html"
+}
+
+function createInstances() {
+    local TOTAL=$1
+    local INDEX=1
+
+    [ ! -d "${DIR}/results" ] && mkdir "${DIR}/results"
     while [ ${INDEX} -le ${TOTAL} ]
     do
-        echo creating "${PREFIX}-${INDEX}"
-        knife ec2 server create "clouddial" \
-          --node-name "${PREFIX}-${INDEX}" \
-          --image "${AMI}" \
-          --flavor m1.small \
-          --ssh-key knife \
-          --identity-file ~/.ssh/knife.pem \
-          --ssh-user ubuntu \
-          --region "${REGION}"
+        local NAME="${PREFIX}-${INDEX}"
+        createInstance "${NAME}"
+        gatherResult "${NAME}"
         INDEX=$((${INDEX} + 1))
     done
 }
-
-#This function isn't used any more. The Chef recipe handles this
-#function postScript() {
-#    knife ssh 'name:rgtest-*' 'sleep 10 && uptime | tee /tmp/uptime.out'  \
-#      --identity-file  ~/.ssh/knife.pem \
-#      --attribute cloud.public_hostname \
-#      --ssh-user ubuntu
-#}
 
 function deleteNode() {
     knife node delete "${1}" --yes
