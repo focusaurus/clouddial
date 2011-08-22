@@ -275,3 +275,16 @@ record.
 * OK, code to grab a .tar.gz file from S3 and extract it into / is
   working
 * Done for now. Back later.
+
+#Sunday, August 21, 2011 5:43 PM MDT
+* Working on gathering the results files
+* Searched for a knife command to download a remote file from a managed
+  node but came up empty. Using native scp for now.
+
+    #This function isn't used any more. The Chef recipe handles this
+    #function postScript() {
+    #    knife ssh 'name:rgtest-*' 'sleep 10 && uptime | tee /tmp/uptime.out'  \
+    #      --identity-file  ~/.ssh/knife.pem \
+    #      --attribute cloud.public_hostname \
+    #      --ssh-user ubuntu
+    #}
