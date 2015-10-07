@@ -3,7 +3,7 @@
 
 ##Challenge Problem Text with Commentary
 
-Here is the original challange specification with my comments.
+Here is the original challenge specification with my comments.
 
 > Here is your challenge problem:
 > Your challenge consists of building a script for very simple EC2 server
